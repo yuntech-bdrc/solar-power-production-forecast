@@ -204,68 +204,43 @@ def Auto_merge_15m():
             solar_new_original =solar_new.loc[j+1,:]
             #第一筆位置為0~3,第一筆後要從位置3之後開始存資料
             if j == 0:
-                # 添加第一行數據(EX:第一筆)
-                solar_new_dataframe.loc[j, 'TIME_TO_INTERVAL'] = df_datatime[0]
-                solar_new_dataframe.loc[j, 'Power'] = solar_new_original[1]
-                solar_new_dataframe.loc[j, 'Radiation'] = solar_new_original[2]
-                solar_new_dataframe.loc[j, 'ClearSkyRadiation'] = solar_new_original[3]
-                solar_new_dataframe.loc[j, 'Radiation(SDv3)(CWB)'] = solar_new_original[4]
-                solar_new_dataframe.loc[j, 'Radiation(SDv3)(OWM)'] = solar_new_original[6]
-                solar_new_dataframe.loc[j, 'Radiation(MSM)'] = solar_new_original[7]
-                solar_new_dataframe.loc[j, 'Radiation(today)(CWB)'] = solar_new_original[8]
-                solar_new_dataframe.loc[j, 'Radiation(today)(OWM)'] = solar_new_original[10]
-                solar_new_dataframe.loc[j, 'WeatherType(CWB)'] = solar_new_original[11]
-                solar_new_dataframe.loc[j, 'WeatherType(pred)(CWB)'] =solar_new_original[12]
-                solar_new_dataframe.loc[j, 'WeatherType(OWM)'] = solar_new_original[15]
-                solar_new_dataframe.loc[j, 'WeatherType(pred)(OWM)'] = solar_new_original[16]
-                solar_new_dataframe.loc[j, 'ApparentTemperature(pred)[CWB]'] =solar_new_original[17]
-                solar_new_dataframe.loc[j, 'Temperature(pred)[CWB]'] = solar_new_original[18]
-                solar_new_dataframe.loc[j, 'RelativeHumidity(pred)[CWB]'] = solar_new_original[19]
-                solar_new_dataframe.loc[j, 'FeelsLikeTemperature(pred)[OWM]'] =solar_new_original[23]
-                solar_new_dataframe.loc[j, 'Temperature(pred)[OWM]'] = solar_new_original[24]
-                solar_new_dataframe.loc[j, 'RelativeHumidity(pred)[OWM]'] =solar_new_original[25]
-                # 添加第2到4行數據(00:15~00:45)(EX:第二到四筆)
-                for s in range(1, 4):
-                    solar_new_dataframe.loc[j+s, 'TIME_TO_INTERVAL'] = df_datatime[s]
-                    #天氣類型為名目資料,因此填入與一小時資料相同類型
-                    solar_new_dataframe.loc[j+s, 'WeatherType(CWB)'] = solar_new_original[11]
-                    solar_new_dataframe.loc[j+s, 'WeatherType(pred)(CWB)'] = solar_new_original[12]
-                    solar_new_dataframe.loc[j+s, 'WeatherType(OWM)'] = solar_new_original[15]
-                    solar_new_dataframe.loc[j+s, 'WeatherType(pred)(OWM)'] = solar_new_original[16]
+                j = j   
             else:
-                # 添加第4行後數據(EX:第五筆)
-                solar_new_dataframe.loc[j+(j*3), 'TIME_TO_INTERVAL'] = df_datatime[0]
-                solar_new_dataframe.loc[j+(j*3), 'Power'] = solar_new_original[1]
-                solar_new_dataframe.loc[j+(j*3), 'Radiation'] = solar_new_original[2]
-                solar_new_dataframe.loc[j+(j*3), 'ClearSkyRadiation'] = solar_new_original[3]
-                solar_new_dataframe.loc[j+(j*3), 'Radiation(SDv3)(CWB)'] = solar_new_original[4]
-                solar_new_dataframe.loc[j+(j*3), 'Radiation(SDv3)(OWM)'] = solar_new_original[6]
-                solar_new_dataframe.loc[j+(j*3), 'Radiation(MSM)'] = solar_new_original[7]
-                solar_new_dataframe.loc[j+(j*3), 'Radiation(today)(CWB)'] = solar_new_original[8]
-                solar_new_dataframe.loc[j+(j*3), 'Radiation(today)(OWM)'] = solar_new_original[10]
-                solar_new_dataframe.loc[j+(j*3), 'WeatherType(CWB)'] = solar_new_original[11]
-                solar_new_dataframe.loc[j+(j*3), 'WeatherType(pred)(CWB)'] =solar_new_original[12]
-                solar_new_dataframe.loc[j+(j*3), 'WeatherType(OWM)'] = solar_new_original[15]
-                solar_new_dataframe.loc[j+(j*3), 'WeatherType(pred)(OWM)'] = solar_new_original[16]
-                solar_new_dataframe.loc[j+(j*3), 'ApparentTemperature(pred)[CWB]'] =solar_new_original[17]
-                solar_new_dataframe.loc[j+(j*3), 'Temperature(pred)[CWB]'] = solar_new_original[18]
-                solar_new_dataframe.loc[j+(j*3), 'RelativeHumidity(pred)[CWB]'] = solar_new_original[19]
-                solar_new_dataframe.loc[j+(j*3), 'FeelsLikeTemperature(pred)[OWM]'] =solar_new_original[23]
-                solar_new_dataframe.loc[j+(j*3), 'Temperature(pred)[OWM]'] = solar_new_original[24]
-                solar_new_dataframe.loc[j+(j*3), 'RelativeHumidity(pred)[OWM]'] =solar_new_original[25]
-                # 添加第4行後的3行數據(EX:第六到八筆)
-                for d in range(1, 4): 
-                    solar_new_dataframe.loc[j+(j*3)+d, 'TIME_TO_INTERVAL'] = df_datatime[d]
-                    #天氣類型為名目資料,因此填入與一小時資料相同類型
-                    solar_new_dataframe.loc[j+(j*3)+d, 'WeatherType(CWB)'] = solar_new_original[11]
-                    solar_new_dataframe.loc[j+(j*3)+d, 'WeatherType(pred)(CWB)'] = solar_new_original[12]
-                    solar_new_dataframe.loc[j+(j*3)+d, 'WeatherType(OWM)'] = solar_new_original[15]
-                    solar_new_dataframe.loc[j+(j*3)+d, 'WeatherType(pred)(OWM)'] = solar_new_original[16]
+                j = j+(j*3)
+    
+            # 添加第一行數據(EX:第一筆)
+            solar_new_dataframe.loc[j, 'TIME_TO_INTERVAL'] = df_datatime[0]
+            solar_new_dataframe.loc[j, 'Power'] = solar_new_original[1]
+            solar_new_dataframe.loc[j, 'Radiation'] = solar_new_original[2]
+            solar_new_dataframe.loc[j, 'ClearSkyRadiation'] = solar_new_original[3]
+            solar_new_dataframe.loc[j, 'Radiation(SDv3)(CWB)'] = solar_new_original[4]
+            solar_new_dataframe.loc[j, 'Radiation(SDv3)(OWM)'] = solar_new_original[6]
+            solar_new_dataframe.loc[j, 'Radiation(MSM)'] = solar_new_original[7]
+            solar_new_dataframe.loc[j, 'Radiation(today)(CWB)'] = solar_new_original[8]
+            solar_new_dataframe.loc[j, 'Radiation(today)(OWM)'] = solar_new_original[10]
+            solar_new_dataframe.loc[j, 'WeatherType(CWB)'] = solar_new_original[11]
+            solar_new_dataframe.loc[j, 'WeatherType(pred)(CWB)'] =solar_new_original[12]
+            solar_new_dataframe.loc[j, 'WeatherType(OWM)'] = solar_new_original[15]
+            solar_new_dataframe.loc[j, 'WeatherType(pred)(OWM)'] = solar_new_original[16]
+            solar_new_dataframe.loc[j, 'ApparentTemperature(pred)[CWB]'] =solar_new_original[17]
+            solar_new_dataframe.loc[j, 'Temperature(pred)[CWB]'] = solar_new_original[18]
+            solar_new_dataframe.loc[j, 'RelativeHumidity(pred)[CWB]'] = solar_new_original[19]
+            solar_new_dataframe.loc[j, 'FeelsLikeTemperature(pred)[OWM]'] =solar_new_original[23]
+            solar_new_dataframe.loc[j, 'Temperature(pred)[OWM]'] = solar_new_original[24]
+            solar_new_dataframe.loc[j, 'RelativeHumidity(pred)[OWM]'] =solar_new_original[25]
+            # 添加第2到4行數據(00:15~00:45)(EX:第二到四筆)
+            for s in range(1, 4):
+                solar_new_dataframe.loc[j+s, 'TIME_TO_INTERVAL'] = df_datatime[s]
+                #天氣類型為名目資料,因此填入與一小時資料相同類型
+                solar_new_dataframe.loc[j+s, 'WeatherType(CWB)'] = solar_new_original[11]
+                solar_new_dataframe.loc[j+s, 'WeatherType(pred)(CWB)'] = solar_new_original[12]
+                solar_new_dataframe.loc[j+s, 'WeatherType(OWM)'] = solar_new_original[15]
+                solar_new_dataframe.loc[j+s, 'WeatherType(pred)(OWM)'] = solar_new_original[16]
+           
         solar_new_dataframe.to_csv(f'dataset/solar_汙水廠_newbig(solar(new)_history).csv', index=None)
         print(now,'Data added successfully.')
     else:
         print(now,'NO new data.')
-
 
     # 讀取15分鐘csv檔(該檔尚未做線性)
     solar_history_new15m = pd.read_csv(f'dataset/solar_汙水廠_newbig(solar(new)_history).csv')
