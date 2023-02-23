@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# # <font color=#0000FF>將整數轉換為時間類型</font>
+
 # In[1]:
 
 
@@ -13,7 +15,7 @@ def format_time(i):
     return str(time).zfill(8)
 
 
-# # <font color=#0000FF>將雲資料擴增4倍儲存到空的dataframe</font>
+# # <font color=#0000FF>將雲資料擴增4倍儲存到空的Dataframe</font>
 
 # In[2]:
 
@@ -54,38 +56,9 @@ def cold_data_15m(df_cloud,cloudlen):
     return cold_new_data
 
 
-# # <font color=#0000FF>轉DataFrame做線性補值並合併history_15的csv檔</font>
-
-# In[3]:
-
-
-# def cold_data_15m_new(cold_new_data):
-#     df_cold = pd. DataFrame({
-#       'lon': cold_new_data['lon'].astype(float),
-#       'lat': cold_new_data['lat'].astype(float),
-#       'cloud': cold_new_data['cloud'].astype(float),
-#       'low': cold_new_data['low'].astype(float),
-#       'mid': cold_new_data['mid'].astype(float),
-#       'hig': cold_new_data['hig'].astype(float)
-#     })
-
-
-#     # 線性進行插值(備注:df_X2為名目資料,不需要做線性補值)
-#     df_cold = df_cold.interpolate(method ='linear',limit_area='inside')#limit_area='inside'僅填充被有效值包圍的 NaN（插值）
-#     df_cold
-
-#     #將原有索引替換為從0開始的新索引
-#     dfXlen_result = dfXlen_result.reset_index(drop=True).reset_index(drop=True)
-#     df_cold = df_cold.reset_index(drop=True)
-
-#     #合併history_15的csv檔
-#     df_all = pd.concat([dfXlen_result,df_cold],axis=1)
-#     return df_all
-
-
 # # <font color=#0000FF>處理雲資料的時間欄位</font>
 
-# In[4]:
+# In[3]:
 
 
 import pandas as pd
@@ -154,10 +127,10 @@ df_all = pd.concat([dfXlen_result,df_cold],axis=1)
 df_all.to_csv(f'./dataset/solar_汙水廠(history_cloud_15m).csv', index=None)
 
 
-# In[ ]:
+# In[4]:
 
 
-
+df_all
 
 
 # In[ ]:
