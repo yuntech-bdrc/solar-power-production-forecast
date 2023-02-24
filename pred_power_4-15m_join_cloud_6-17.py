@@ -179,8 +179,7 @@ def cRMSE(y_true, y_pred, capacity):
 # In[5]:
 
 
-def def_performance(pred,feature_cloud)
-    print('加入',
+def performance(pred):
     print(round(MRE(pred['true'], pred['pred'],solar_capacity),2))
     print(round(nRMSE(pred['true'], pred['pred']),2))
     print(round(nMAE(pred['true'], pred['pred']),2))
@@ -273,90 +272,14 @@ for i in range(0,5):
     train_x, train_y = np.array(train_x), np.array(train_y)
     test_x, test_y = np.array(test_x), np.array(test_y)
     train_idx, test_idx = pd.DataFrame(), pd.DataFrame()  
-    pred = model_build(train_x, train_y, train_idx, test_x, test_y, test_idx, 'rvm')
-    
+    pred = model_build(train_x, train_y, train_idx, test_x, test_y, test_idx, 'svr')
     
     
     Baoshan = pd.read_csv(f'Plant_Info_Baoshan.csv', low_memory=False)
     solar_capacity = Baoshan['Capacity'][1]
     solar_capacity
     
-    performance = def_performance(pred,feature_cloud[i])
+    #呼叫 performance函數顯示績效
+    dfperformance = performance(pred)
    
-
-
-# In[11]:
-
-
-# Baoshan = pd.read_csv(f'Plant_Info_Baoshan.csv', low_memory=False)
-# solar_capacity = Baoshan['Capacity'][1]
-# solar_capacity
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[12]:
-
-
-line_color = [
-    '#1f77b4',  # muted blue
-    '#ff7f0e',  # safety orange
-    '#2ca02c',  # cooked asparagus green
-    '#d62728',  # brick red
-    '#9467bd',  # muted purple
-    '#8c564b',  # chestnut brown
-    '#e377c2',  # raspberry yogurt pink
-    '#7f7f7f',  # middle gray
-    '#bcbd22',  # curry yellow-green
-    '#17becf'   # blue-teal
-]
-
-
-# xtick = int(len(test_data['TIME_TO_INTERVAL'])/24)
-
-fig_line = go.Figure()
-
-fig_line.add_trace(go.Scatter(y = pred['true'], x=test_data['TIME_TO_INTERVAL'],
-                    mode='lines',
-                    name='真實值',
-                    line={'dash': 'dash'},
-                    line_color= '#1f77b4'))
-fig_line.add_trace(go.Scatter(y = pred['pred'], x=test_data['TIME_TO_INTERVAL'],
-                    mode='lines',
-                    name='預測值',
-                    line_color= '#ff7f0e'))
-fig_line.update_layout(
-    yaxis_title='發電量',
-    xaxis_title='日期',
-    title='彰師大汙水廠預測結果',
-    font=dict(
-        size=18,
-    ),
-#     yaxis2=dict(anchor='x', overlaying='y', side='right')
-    height=450, 
-    width=1500,
-
-)
-#     fig_line.write_html(f'{folder_path}/img/{methods}_{i}.html')
-
-#更改刻度標籤格式
-fig_line.update_xaxes(tickformat="%b %d\n%Y")
-
-fig_line.show()
-
-
-# In[ ]:
-
-
-
 
