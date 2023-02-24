@@ -112,7 +112,6 @@ def model_build(train_x, train_y, train_idx, test_x, test_y, test_idx, model_nam
         return test_idx
 
 
-
 #     other_params = {'learning_rate': 0.1, 'n_estimators': 500, 'max_depth': 5, 'min_child_weight': 1, 'seed': 0,
 #     'subsample': 0.8, 'colsample_bytree': 0.8, 'gamma': 0, 'reg_alpha': 0, 'reg_lambda': 1}
 #     model = xgb.XGBRegressor(**other_params).fit(train_x, train_y)
@@ -212,7 +211,7 @@ data
 feature_data=[]
 # for i in range(len(feature)):
 for i in range(1):
-    feature_data = ['up_Power_1','next_Radiation_1','up_Power_2','up_Radiation_1','up_Power_3','now_Radiation']
+    feature_data = ['up_Power_1','next_Radiation_1','up_Power_2','up_Radiation_1','now_Radiation']
 #     feature_data = ['pre_Power_1']
 #     feature_data=[]
 #     feature_data.append(feature[i])
@@ -260,12 +259,6 @@ print(round(nRMSE(pred['true'], pred['pred']),2))
 print(round(nMAE(pred['true'], pred['pred']),2))
 print(round(RMSE(pred['true'], pred['pred']),2))
 print(round(MAE(pred['true'], pred['pred']),2))
-
-
-# In[ ]:
-
-
-
 
 
 # In[11]:
@@ -316,10 +309,4 @@ fig_line.update_layout(
 fig_line.update_xaxes(tickformat="%b %d\n%Y")
 
 fig_line.show()
-
-
-# In[ ]:
-
-
-
 
