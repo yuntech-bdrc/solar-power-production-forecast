@@ -80,26 +80,21 @@ df_cloud = pd.read_csv(f'./cloud_data/cloud_datas_hour.csv', header=None)
 #1.處理雲資料的時間('time')col
 #1-1.將列轉換為整數類型,同時忽略任何轉換錯誤（使用 errors='coerce' 參數）
 df_cloud[0][1:] = pd.to_numeric(df_cloud[0][1:], errors='coerce').astype('Int64')
-
 #1-2.將指定列的所有整數值轉換為時間類型並覆蓋原始值(ex:0->00:00:00),呼叫format_time函數
 df_cloud[0][1:] = df_cloud[0][1:].apply(lambda x: format_time(x))
 
 #2.將('time'欄和'TIME_TO_INTERVAL'合併)
 df_cloud[0] = df_cloud[7].astype(str) + ' ' + df_cloud[0].astype(str)
-
 #2-1.刪除原版的'TIME_TO_INTERVAL'的col，並將結果存回 DataFrame
 df_cloud.drop(7, axis=1, inplace=True)
-
 #2-2.取代第一個col的row值
 df_cloud.iat[0, 0] = 'TIME_TO_INTERVAL'
 
 #雲資料長度
 cloudlen = len(df_cloud)
 
-
 #呼叫cold_data_15m函數進行資料擴增
 cold_new_data = cold_data_15m(df_cloud,cloudlen)
-
 
 #轉DataFrame做線性補值並合併history_15的csv檔
 df_cold = pd. DataFrame({
@@ -112,9 +107,7 @@ df_cold = pd. DataFrame({
 })
 
 
-# 線性進行插值(備注:df_X2為名目資料,不需要做線性補值)
 df_cold = df_cold.interpolate(method ='linear',limit_area='inside')#limit_area='inside'僅填充被有效值包圍的 NaN（插值）
-df_cold
 
 #將原有索引替換為從0開始的新索引
 dfXlen_result = dfXlen_result.reset_index(drop=True).reset_index(drop=True)
@@ -131,10 +124,4 @@ df_all.to_csv(f'./dataset/solar_汙水廠(history_cloud_15m).csv', index=None)
 
 
 df_all
-
-
-# In[ ]:
-
-
-
 
