@@ -33,7 +33,7 @@ import matplotlib.dates as md
 
 def split_data(data):
     feature_data = pd.DataFrame(data,columns=['up_Power_1','up_Power_2','up_Power_3','up_Radiation_1','now_Radiation','next_Radiation_1',
-                                             'up_lon_1','up_lat_1','up_cloud_1','up_mid_1','up_hig_1'])
+                                             'up_lon_1','up_lat_1','up_cloud_1','up_low_1','up_mid_1','up_hig_1'])
     length_data = int(len(data))
     #next_Radiation_1(倒數4筆沒有下一小時的Radiation)
     length_data_last = length_data-4
@@ -47,6 +47,7 @@ def split_data(data):
             feature_data['up_lon_1'][j] = 0.0000
             feature_data['up_lat_1'][j] = 0.0000
             feature_data['up_cloud_1'][j] = 0.0000
+            feature_data['up_low_1'][j] = 0.0000
             feature_data['up_mid_1'][j] = 0.0000
             feature_data['up_hig_1'][j] = 0.0000
             
@@ -56,6 +57,7 @@ def split_data(data):
             feature_data['up_lon_1'][j] = data['lon'][j-4]
             feature_data['up_lat_1'][j] = data['lat'][j-4]
             feature_data['up_cloud_1'][j] = data['cloud'][j-4]
+            feature_data['up_low_1'][j] = data['cloud'][j-4]
             feature_data['up_mid_1'][j] = data['mid'][j-4]
             feature_data['up_hig_1'][j] = data['hig'][j-4]
         
@@ -190,6 +192,57 @@ def performance(pred):
 # In[6]:
 
 
+def performance_graph(pred,test_data):
+    line_color = [
+        '#1f77b4',  # muted blue
+        '#ff7f0e',  # safety orange
+        '#2ca02c',  # cooked asparagus green
+        '#d62728',  # brick red
+        '#9467bd',  # muted purple
+        '#8c564b',  # chestnut brown
+        '#e377c2',  # raspberry yogurt pink
+        '#7f7f7f',  # middle gray
+        '#bcbd22',  # curry yellow-green
+        '#17becf'   # blue-teal
+    ]
+
+
+    # xtick = int(len(test_data['TIME_TO_INTERVAL'])/24)
+
+    fig_line = go.Figure()
+
+    fig_line.add_trace(go.Scatter(y = pred['true'], x=test_data['TIME_TO_INTERVAL'],
+                        mode='lines',
+                        name='真實值',
+                        line={'dash': 'dash'},
+                        line_color= '#1f77b4'))
+    fig_line.add_trace(go.Scatter(y = pred['pred'], x=test_data['TIME_TO_INTERVAL'],
+                        mode='lines',
+                        name='預測值',
+                        line_color= '#ff7f0e'))
+    fig_line.update_layout(
+        yaxis_title='發電量',
+        xaxis_title='日期',
+        title='彰師大汙水廠預測結果',
+        font=dict(
+            size=18,
+        ),
+    #     yaxis2=dict(anchor='x', overlaying='y', side='right')
+        height=450, 
+        width=1500,
+
+    )
+    #     fig_line.write_html(f'{folder_path}/img/{methods}_{i}.html')
+
+    #更改刻度標籤格式
+    fig_line.update_xaxes(tickformat="%b %d\n%Y")
+
+    fig_line.show()
+
+
+# In[7]:
+
+
 merge_raw = pd.read_csv(f'Dataset/solar_汙水廠(history_cloud_15m).csv')
 print(len(merge_raw))
 data = merge_raw.copy()
@@ -215,13 +268,13 @@ no_cloud_data = data[['TIME_TO_INTERVAL','Date','Hour','Power','Radiation','Clea
 pre_data = split_data(data)
 
 
-# In[7]:
+# In[8]:
 
 
 pre_data
 
 
-# In[8]:
+# In[9]:
 
 
 data['TIME_TO_INTERVAL'] = pd.to_datetime(data['TIME_TO_INTERVAL'])
@@ -233,20 +286,18 @@ test_split_date2 = '2022-10-31'
 data = no_cloud_data.merge(pre_data, how='left', left_index=True, right_index=True)
 
 
-# In[9]:
+# In[10]:
 
 
 data
 
 
-# In[10]:
+# In[11]:
 
 
 feature_data=[]
-# for i in range(len(feature)):
-feature_cloud = ['up_lon_1','up_lat_1','up_cloud_1','up_mid_1','up_hig_1']
-for i in range(0,5):
-    feature_data = ['up_Power_1','next_Radiation_1','up_Power_2','up_Radiation_1','now_Radiation','up_cloud_1',feature_cloud[i]]
+for i in range(1):
+    feature_data = ['up_Power_1','next_Radiation_1','up_Power_2','up_Radiation_1','now_Radiation']
     print(feature_data)
     print(len(data))
     mask = data['TIME_TO_INTERVAL']<=test_split_date
@@ -272,7 +323,7 @@ for i in range(0,5):
     train_x, train_y = np.array(train_x), np.array(train_y)
     test_x, test_y = np.array(test_x), np.array(test_y)
     train_idx, test_idx = pd.DataFrame(), pd.DataFrame()  
-    pred = model_build(train_x, train_y, train_idx, test_x, test_y, test_idx, 'svr')
+    pred = model_build(train_x, train_y, train_idx, test_x, test_y, test_idx, 'rvm')
     
     
     Baoshan = pd.read_csv(f'Plant_Info_Baoshan.csv', low_memory=False)
@@ -281,5 +332,53 @@ for i in range(0,5):
     
     #呼叫 performance函數顯示績效
     dfperformance = performance(pred)
+    #
+    dfperformance_graph = performance_graph(pred,test_data)
+
+
+# In[12]:
+
+
+feature_data=[]
+# for i in range(len(feature)):
+feature_cloud = ['up_lon_1','up_lat_1','up_cloud_1','up_low_1','up_mid_1','up_hig_1']
+for i in range(0,6):
+    feature_data = ['up_Power_1','next_Radiation_1','up_Power_2','up_Radiation_1','now_Radiation',feature_cloud[i]]
+    print(feature_data)
+    print(len(data))
+    mask = data['TIME_TO_INTERVAL']<=test_split_date
+    mask2 = data['TIME_TO_INTERVAL']<=test_split_date2
+
+    train_data = data[mask].reset_index(drop=True)
+    print(len(train_data))
+    test_data = data[(~mask)&(mask2)].reset_index(drop=True)
+    print(len(test_data))
+    train_x = train_data[feature_data]
+    train_y = train_data[['Power']]
+    test_x = test_data[feature_data] 
+    test_y = test_data[['Power']]
+
+    scaler_x = MinMaxScaler()
+    scaler_x.fit(train_x[feature_data])
+    train_x = scaler_x.transform(train_x[feature_data])
+    test_x = scaler_x.transform(test_x[feature_data])
+    scaler_y = MinMaxScaler()
+    scaler_y.fit(train_y[['Power']])
+    train_y = scaler_y.transform(train_y[['Power']])
+
+    train_x, train_y = np.array(train_x), np.array(train_y)
+    test_x, test_y = np.array(test_x), np.array(test_y)
+    train_idx, test_idx = pd.DataFrame(), pd.DataFrame()  
+    pred = model_build(train_x, train_y, train_idx, test_x, test_y, test_idx, 'rvm')
+    
+    
+    Baoshan = pd.read_csv(f'Plant_Info_Baoshan.csv', low_memory=False)
+    solar_capacity = Baoshan['Capacity'][1]
+    solar_capacity
+    
+    #呼叫 performance函數顯示績效
+    dfperformance = performance(pred)
+    #
+    dfperformance_graph = performance_graph(pred,test_data)
    
 
