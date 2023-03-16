@@ -240,7 +240,7 @@ for i in range(1):
     train_x, train_y = np.array(train_x), np.array(train_y)
     test_x, test_y = np.array(test_x), np.array(test_y)
     train_idx, test_idx = pd.DataFrame(), pd.DataFrame()  
-    pred = model_build(train_x, train_y, train_idx, test_x, test_y, test_idx, 'svr')
+    pred = model_build(train_x, train_y, train_idx, test_x, test_y, test_idx, 'rvm')
 
 
 # In[9]:
