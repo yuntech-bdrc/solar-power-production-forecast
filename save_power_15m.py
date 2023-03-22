@@ -270,7 +270,7 @@ def merge_power_weather():
     power_data = power_data[['TIME_TO_INTERVAL','date','hour','Power']]
     power_data = power_data.dropna(subset=['Power']).reset_index(drop=True)
     power_data = power_data.drop_duplicates(['TIME_TO_INTERVAL'], keep="last").reset_index(drop=True)
-    weatherdata = pd.read_csv('dataset/solar_汙水廠(history).csv')
+    weatherdata = pd.read_csv('dataset/solar_plant(history).csv')
     weatherdata = weatherdata.rename(columns={'Radiation(SDv3)(IBM)':'Radiation(SDv3)(TWC)',
                             'WeatherType(IBM)':'WeatherType(TWC)',
                             'WeatherType(pred)(IBM)':'WeatherType(pred)(TWC)',
