@@ -104,10 +104,10 @@ while(True):
         day = pd.to_datetime(day, format='%Y%m%d')
         start = pd.to_datetime(str(day.year)+'-'+str(day.month)+'-'+str(day.day))-datetime.timedelta(days=1)
         data = get_power_date(start)
-        old = pd.read_csv(f'./power_data/solar_汙水廠_history.csv', low_memory=False)
+        old = pd.read_csv(f'./power_data/solar_plant_history.csv', low_memory=False)
         d = pd.concat([old, data], axis=0, ignore_index=True)
         d = d.drop_duplicates(subset=['TIME_TO_INTERVAL'], keep='last')
-        d.to_csv(f'./power_data/solar_汙水廠_history.csv', index=None)
+        d.to_csv(f'./power_data/solar_plant_history.csv', index=None)
         print('okok')
         end_time = time.time()
         finish = end_time - start_time
@@ -124,10 +124,10 @@ while(True):
 
 # start = '2022-01-01'
 # data = get_power_date(start)
-# old = pd.read_csv(f'./power_data/solar_汙水廠_history.csv')
+# old = pd.read_csv(f'./power_data/solar_plant_history.csv')
 # d = pd.concat([old, data], axis=0, ignore_index=True)
 # d = d.drop_duplicates(subset=['TIME_TO_INTERVAL'], keep='last')
-# d.to_csv(f'./power_data/solar_汙水廠_history.csv', index=None)
+# d.to_csv(f'./power_data/solar_plant_history.csv', index=None)
 
 
 # In[ ]:
@@ -142,7 +142,7 @@ while(True):
 # In[ ]:
 
 
-# solar_allhour = pd.read_csv('./power_data/solar_汙水廠(allhour).csv')
+# solar_allhour = pd.read_csv('./power_data/solar_plant(allhour).csv')
 # solar_allhour = solar_allhour[['Power','TIME_TO_INTERVAL']]
 # solar_allhour
 
@@ -154,7 +154,7 @@ while(True):
 # merge_data = merge_data.drop_duplicates(keep='first',inplace=False)
 # merge_data = merge_data.sort_values(by=['TIME_TO_INTERVAL'])
 # merge_data = merge_data.reset_index(drop=True,inplace=False)
-# merge_data.to_csv('./power_data/solar_汙水廠_history.csv',index=False)
+# merge_data.to_csv('./power_data/solar_plant_history.csv',index=False)
 
 
 # In[ ]:
