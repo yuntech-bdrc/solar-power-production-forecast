@@ -166,7 +166,7 @@ def cRMSE(y_true, y_pred, capacity):
 # In[5]:
 
 
-merge_raw = pd.read_csv(f'Dataset/solar_汙水廠(history).csv')
+merge_raw = pd.read_csv(f'Dataset/solar_plant(history).csv')
 data = merge_raw.copy()
 data = data.drop_duplicates(subset=['TIME_TO_INTERVAL'], keep='last')
 data['TIME_TO_INTERVAL'] = pd.to_datetime(data['TIME_TO_INTERVAL'])
