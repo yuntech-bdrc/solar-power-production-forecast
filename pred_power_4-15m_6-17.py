@@ -165,7 +165,7 @@ def cRMSE(y_true, y_pred, capacity):
 # In[5]:
 
 
-merge_raw = pd.read_csv(f'Dataset/solar_汙水廠_newbig_sort(history_15m).csv')
+merge_raw = pd.read_csv(f'Dataset/solar_plant_newbig_sort(history_15m).csv')
 print(len(merge_raw))
 data = merge_raw.copy()
 #刪除重複項並保留最後一次出現
