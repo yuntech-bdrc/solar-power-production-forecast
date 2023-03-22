@@ -56,7 +56,7 @@ def weather_data(start):
 
 
 def merge_MSM(data,last_time):
-    msm = pd.read_csv('./MSM_data/save/solar_汙水廠_dswrfpred.csv')
+    msm = pd.read_csv('./MSM_data/save/solar_plant_dswrfpred.csv')
     msm['TIME_TO_INTERVAL'] = pd.to_datetime(msm['TIME_TO_INTERVAL'])
     mask = (msm['TIME_TO_INTERVAL'] >= last_time)
     msm = msm[mask]
@@ -97,7 +97,7 @@ def put_msm_data(row, msm, feature, feature_2,feature_3,feature_4):
 def all_data(latitude,longitude,last_time):
     # 抓取歷史資料
     # 晴空輻射資料
-    sky_radiation = pd.read_csv('clear_sky_data/solar_汙水廠_ClearSkyRadiation.csv')
+    sky_radiation = pd.read_csv('clear_sky_data/solar_plant_ClearSkyRadiation.csv')
     sky_radiation['TIME_TO_INTERVAL'] = pd.to_datetime(sky_radiation['TIME_TO_INTERVAL'])
     mask = (sky_radiation['TIME_TO_INTERVAL'] >= last_time)
     sky_radiation = sky_radiation[mask]
@@ -112,7 +112,7 @@ def all_data(latitude,longitude,last_time):
     #合併晴空輻射資料和歷史輻射
     data = pd.merge(sky_radiation,cwb_rad_data,on='TIME_TO_INTERVAL',how='outer')
     # 歷史彰師大資料
-    NCUE = pd.read_csv('power_data/solar_汙水廠_history.csv')
+    NCUE = pd.read_csv('power_data/solar_plant_history.csv')
     NCUE['TIME_TO_INTERVAL'] = pd.to_datetime(NCUE['TIME_TO_INTERVAL'])
     mask = (NCUE['TIME_TO_INTERVAL'] >= last_time)
     NCUE = NCUE[mask]
@@ -122,7 +122,7 @@ def all_data(latitude,longitude,last_time):
     #將data和中興大學輻射合併
     data = merge_MSM(data,last_time)
     
-#     old = pd.read_csv(f'./dataset/solar_汙水廠(history).csv')
+#     old = pd.read_csv(f'./dataset/solar_plant(history).csv')
 #     d = pd.concat([old, data], axis=0, ignore_index=True)
 #     d = d.drop_duplicates(subset=['TIME_TO_INTERVAL'], keep='last')
     return data
@@ -407,7 +407,7 @@ def apply_weather_type(start, data_1h, key, row, weather_forecast, default='晴'
     #         return np.nan
             return '晴'
     else:
-        history_data = pd.read_csv('./dataset/solar_汙水廠(history).csv')
+        history_data = pd.read_csv('./dataset/solar_plant(history).csv')
         mask = history_data['TIME_TO_INTERVAL'].eq(pd.to_datetime(row['TIME_TO_INTERVAL']))
         if(mask.any()):
 #             print(f"< start: {start}, {row['TIME_TO_INTERVAL']}, {data_1h[mask][f'WeatherType({key})'].values[0]}")
@@ -476,7 +476,7 @@ def similar_day_radiation_v3(row, raw_1h, raw_3h,key, limit=10):
     data_1h = raw_1h.copy()
     data_3h = raw_3h.copy()
     
-    history_data = pd.read_csv('./dataset/solar_汙水廠(history).csv')
+    history_data = pd.read_csv('./dataset/solar_plant(history).csv')
     history_data['TIME_TO_INTERVAL'] = pd.to_datetime(history_data['TIME_TO_INTERVAL'])
     history_data['Hour'] = history_data['TIME_TO_INTERVAL'].dt.hour
     history_data['Date'] = history_data['TIME_TO_INTERVAL'].dt.date
@@ -530,7 +530,7 @@ def similar_today_radiation_v3(row, raw_1h, raw_3h,key, limit=10):
     data_1h = raw_1h.copy()
     data_3h = raw_3h.copy()
     
-    history_data = pd.read_csv('./dataset/solar_汙水廠(history).csv')
+    history_data = pd.read_csv('./dataset/solar_plant(history).csv')
     history_data['TIME_TO_INTERVAL'] = pd.to_datetime(history_data['TIME_TO_INTERVAL'])
     history_data['Hour'] = history_data['TIME_TO_INTERVAL'].dt.hour
     history_data['Date'] = history_data['TIME_TO_INTERVAL'].dt.date
@@ -715,7 +715,7 @@ def get_recent(raw, longitude, latitude, service='CWB'):
 # start = pd.to_datetime(str(day.year)+'-'+str(day.month)+'-'+str(day.day))
 # # weather_data(start)
 # #抓取歷史資料最後時間
-# history = pd.read_csv('./dataset/solar_汙水廠(history).csv')
+# history = pd.read_csv('./dataset/solar_plant(history).csv')
 # last_time = history[-1:]['TIME_TO_INTERVAL'].values[0]
 # last_time = pd.to_datetime(last_time)
 # if(start<=last_time):
@@ -740,11 +740,11 @@ def get_recent(raw, longitude, latitude, service='CWB'):
 # data  = Weather(data, last_time)
 # #將data和中興大學輻射合併
 # total_data = merge_MSM(data,last_time)
-# old = pd.read_csv(f'./dataset/solar_汙水廠(history).csv')
+# old = pd.read_csv(f'./dataset/solar_plant(history).csv')
 # d = pd.concat([old, total_data], axis=0, ignore_index=True)
 # d = d.drop_duplicates(subset=['TIME_TO_INTERVAL'], keep='last')
-# d.to_csv(f'./dataset/solar_汙水廠(history).csv', index=None)
-# total_data.to_csv('./dataset/solar_汙水廠(new).csv', index=None)
+# d.to_csv(f'./dataset/solar_plant(history).csv', index=None)
+# total_data.to_csv('./dataset/solar_plant(new).csv', index=None)
 # print('merge_okok')
 
 
@@ -788,13 +788,13 @@ while(True):
         #將data和我們所需的天氣預測欄位合併
         total_data  = Weather(data, start)
 #         print(data)
-        old = pd.read_csv(f'./dataset/solar_汙水廠(history).csv')
+        old = pd.read_csv(f'./dataset/solar_plant(history).csv')
         d = pd.concat([old, total_data], axis=0, ignore_index=True)
         d['TIME_TO_INTERVAL'] = pd.to_datetime(d['TIME_TO_INTERVAL'])
         d = d.drop_duplicates(subset=['TIME_TO_INTERVAL'], keep='last')
         d = d.sort_values(by='TIME_TO_INTERVAL')
-        d.to_csv(f'./dataset/solar_汙水廠(history).csv', index=None)
-        total_data.to_csv('./dataset/solar_汙水廠(new).csv', index=None)
+        d.to_csv(f'./dataset/solar_plant(history).csv', index=None)
+        total_data.to_csv('./dataset/solar_plant(new).csv', index=None)
         print('merge_okok')
         end_time = time.time()
         finish = end_time - start_time
@@ -815,7 +815,7 @@ while(True):
 # In[ ]:
 
 
-old = pd.read_csv(f'./dataset/solar_汙水廠(history).csv')
+old = pd.read_csv(f'./dataset/solar_plant(history).csv')
 
 
 # In[ ]:
