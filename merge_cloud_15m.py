@@ -67,7 +67,7 @@ import time
 import datetime
 
 #history_15的csv檔
-df_X = pd.read_csv(f'./dataset/solar_汙水廠_newbig_sort(history_15m).csv')
+df_X = pd.read_csv(f'./dataset/solar_plant_newbig_sort(history_15m).csv')
 dfXlen = len(df_X)
 
 #篩選時間大於等於2022/2/1小於等於2022/10/31(因為雲資料集只有該區間時間資料)
@@ -117,7 +117,7 @@ df_cold = df_cold.reset_index(drop=True)
 df_all = pd.concat([dfXlen_result,df_cold],axis=1)
 
 #存成csv
-df_all.to_csv(f'./dataset/solar_汙水廠(history_cloud_15m).csv', index=None)
+df_all.to_csv(f'./dataset/solar_plant(history_cloud_15m).csv', index=None)
 
 
 # In[4]:
