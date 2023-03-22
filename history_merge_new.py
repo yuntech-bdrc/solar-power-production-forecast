@@ -68,7 +68,7 @@ cf.set_config_file(offline=False, world_readable=True)
 # In[4]:
 
 
-msm = pd.read_csv('./MSM_data/save/solar_汙水廠_dswrfpred.csv')
+msm = pd.read_csv('./MSM_data/save/solar_plant_dswrfpred.csv')
 msm = msm.drop_duplicates(['TIME_TO_INTERVAL'], keep="last")
 msm = msm.sort_values(by=['TIME_TO_INTERVAL']).reset_index(drop=True)
 msm[11450:11500]
@@ -83,7 +83,7 @@ msm['Radiation(MSMv4)[1d]'].values[0]
 def all_data(latitude,longitude):
     # 抓取歷史資料
     # 晴空輻射資料
-    sky_radiation = pd.read_csv('clear_sky_data/solar_汙水廠_ClearSkyRadiation.csv')
+    sky_radiation = pd.read_csv('clear_sky_data/solar_plant_ClearSkyRadiation.csv')
     sky_radiation['TIME_TO_INTERVAL'] = pd.to_datetime(sky_radiation['TIME_TO_INTERVAL'])
     # 歷史輻射
     cwb_rad_data = pd.read_csv('Observation_CWB/467490.csv')
@@ -94,11 +94,11 @@ def all_data(latitude,longitude):
     cwb_rad_data = cwb_rad_data[['TIME_TO_INTERVAL', 'Radiation']]
     data = pd.merge(sky_radiation,cwb_rad_data,on='TIME_TO_INTERVAL',how='outer')
     # 歷史彰師大資料
-    NCUE = pd.read_csv('power_data/solar_汙水廠_history.csv')
+    NCUE = pd.read_csv('power_data/solar_plant_history.csv')
     NCUE['TIME_TO_INTERVAL'] = pd.to_datetime(NCUE['TIME_TO_INTERVAL'])
     data = pd.merge(data,NCUE,on='TIME_TO_INTERVAL',how='outer')
     # 中興大學資料
-    msm = pd.read_csv('./MSM_data/save/solar_汙水廠_dswrfpred.csv')
+    msm = pd.read_csv('./MSM_data/save/solar_plant_dswrfpred.csv')
     msm = msm.drop_duplicates(['TIME_TO_INTERVAL'], keep="last")
     msm = msm.sort_values(by='TIME_TO_INTERVAL').reset_index(drop=True)
     msm['TIME_TO_INTERVAL'] = pd.to_datetime(msm['TIME_TO_INTERVAL'])
@@ -706,7 +706,7 @@ data.tail(250)
 # In[25]:
 
 
-data.to_csv('./Dataset/solar_汙水廠(history).csv', index=None)
+data.to_csv('./Dataset/solar_plant(history).csv', index=None)
 
 
 # # pred_power(3to010)
@@ -714,7 +714,7 @@ data.to_csv('./Dataset/solar_汙水廠(history).csv', index=None)
 # In[26]:
 
 
-merge_raw = pd.read_csv(f'Dataset/solar_汙水廠(history).csv', low_memory=False)
+merge_raw = pd.read_csv(f'Dataset/solar_plant(history).csv', low_memory=False)
 
 
 # In[ ]:
