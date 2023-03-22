@@ -22,7 +22,7 @@ import datetime
 # In[3]:
 
 
-df_X = pd.read_csv(f'dataset/solar_汙水廠(history).csv', header=None)
+df_X = pd.read_csv(f'dataset/solar_plant(history).csv', header=None)
 dfXlen = len(df_X)
 #從df_X中選取所有列的資料[從第一列開始,篩選到DataFrame物件的最後一列,保留DataFrame物件中所有的列]
 df_X = df_X.iloc[0:dfXlen,:]
@@ -30,7 +30,7 @@ df_X = df_X.drop(columns=[5, 9, 13, 14, 20, 21, 22])#刪除IBM欄位
 df_X
 
 
-# # <font color=#0000FF>取大表(solar_汙水廠(history))進行4倍擴增</font>
+# # <font color=#0000FF>取大表(solar_plant(history))進行4倍擴增</font>
 
 # In[4]:
 
@@ -59,17 +59,17 @@ for j in range(1,dfXlen):
             df_X1 = pd.concat([df_X1,df_X_new.to_frame().T],axis=0, ignore_index=True)
         
 # df_X1 = df_X1.sort_values(by=0)
-df_X1.to_csv(f'dataset/solar_汙水廠_newbig(history).csv', index=None,header=False)
+df_X1.to_csv(f'dataset/solar_plant_newbig(history).csv', index=None,header=False)
 
 
-# # <font color=#0000FF>將solar_汙水廠_newbig(history)檔依時間排序</font>
+# # <font color=#0000FF>將solar_plant_newbig(history)檔依時間排序</font>
 
 # In[5]:
 
 
-df_X = pd.read_csv(f'dataset/solar_汙水廠_newbig(history).csv') 
+df_X = pd.read_csv(f'dataset/solar_plant_newbig(history).csv') 
 df_X = df_X.sort_values(by='TIME_TO_INTERVAL')
-df_X.to_csv(f'dataset/solar_汙水廠_newbig_sort(history).csv', index=None)
+df_X.to_csv(f'dataset/solar_plant_newbig_sort(history).csv', index=None)
 
 
 # # <font color=#0000FF>讀取15分鐘csv檔(該檔尚未做線性)</font>
@@ -77,7 +77,7 @@ df_X.to_csv(f'dataset/solar_汙水廠_newbig_sort(history).csv', index=None)
 # In[6]:
 
 
-df_X = pd.read_csv(f'./dataset/solar_汙水廠_newbig_sort(history).csv')
+df_X = pd.read_csv(f'./dataset/solar_plant_newbig_sort(history).csv')
 
 
 # # <font color=#0000FF>轉DataFrame做線性補值</font>
@@ -120,7 +120,7 @@ df_X3 = df_X3.interpolate(method ='linear',limit_area='inside')
 df_all = pd.concat([df_TIME_TO_INTERVAL,df_X1,df_X2,df_X3],axis=1)
 df_all
 #存成csv
-df_all.to_csv(f'./dataset/solar_汙水廠_newbig_sort(history_15m).csv', index=None)
+df_all.to_csv(f'./dataset/solar_plant_newbig_sort(history_15m).csv', index=None)
 
 
 # # <font color=#0000FF>每小時又三分自動讀取大表擴增</font>
@@ -132,13 +132,13 @@ def Auto_merge_15m():
     #取現在時間
     now = datetime.datetime.now() 
     #讀檔
-    solar_new = pd.read_csv(f'dataset/solar_汙水廠(new).csv', header=None)
-    history_15m = pd.read_csv(f'./dataset/solar_汙水廠_newbig_sort(history_15m).csv', header=None)
+    solar_new = pd.read_csv(f'dataset/solar_plant(new).csv', header=None)
+    history_15m = pd.read_csv(f'./dataset/solar_plant_newbig_sort(history_15m).csv', header=None)
     dfXlen = len(solar_new)
     solar_new = solar_new.iloc[0:dfXlen,:]
     solar_new = solar_new.drop(columns=[5, 9, 13, 14, 20, 21, 22])#刪除IBM欄位
     
-    #取solar_汙水廠(new)的TIME_TO_INTERVAL欄值(col)
+    #取solar_plant(new)的TIME_TO_INTERVAL欄值(col)
     # solar_new_noheader格式=2023/1/26 00:00
     solar_new_noheader = solar_new[0]
     #將 solar_new_noheader 中的TIME_TO_INTERVAL資料解析為 datetime 物件且從第一筆開始取資料(不含TIME_TO_INTERVAL標題欄)
@@ -150,13 +150,13 @@ def Auto_merge_15m():
     solar_new_noheader.loc[0] ='TIME_TO_INTERVAL'
     solar_new[0] = solar_new_noheader
 
-    #取solar_汙水廠(new)的第一筆TIME_TO_INTERVAL
+    #取solar_plant(new)的第一筆TIME_TO_INTERVAL
     new_first_col = solar_new[0]
     new_first_row = new_first_col[1]
     #因new_first_row是Timestamp,需轉時間字串
     new_first_row = new_first_row.strftime('%Y-%m-%d %H:%M:%S')
 
-    #取solar_汙水廠_newbig_sort(history_15m)的最後一筆TIME_TO_INTERVAL
+    #取solar_plant_newbig_sort(history_15m)的最後一筆TIME_TO_INTERVAL
     history_row = history_15m.iloc[-1]
     history_col = history_row[0]
 
@@ -237,13 +237,13 @@ def Auto_merge_15m():
                 solar_new_dataframe.loc[j+s, 'WeatherType(OWM)'] = solar_new_original[15]
                 solar_new_dataframe.loc[j+s, 'WeatherType(pred)(OWM)'] = solar_new_original[16]
            
-        solar_new_dataframe.to_csv(f'dataset/solar_汙水廠_newbig(solar(new)_history).csv', index=None)
+        solar_new_dataframe.to_csv(f'dataset/solar_plant_newbig(solar(new)_history).csv', index=None)
         print(now,'Data added successfully.')
     else:
         print(now,'NO new data.')
 
     # 讀取15分鐘csv檔(該檔尚未做線性)
-    solar_history_new15m = pd.read_csv(f'dataset/solar_汙水廠_newbig(solar(new)_history).csv')
+    solar_history_new15m = pd.read_csv(f'dataset/solar_plant_newbig(solar(new)_history).csv')
 
     # 轉DataFrame做線性補值
     # 創建數據集
@@ -282,7 +282,7 @@ def Auto_merge_15m():
     df_all
 
     # 將新的DataFrame資料追加到原始CSV檔案中
-    df_all.to_csv(f'./dataset/solar_汙水廠_newbig_sort(history_15m).csv', mode='a', header=False, index=False)
+    df_all.to_csv(f'./dataset/solar_plant_newbig_sort(history_15m).csv', mode='a', header=False, index=False)
     
 #排程
 # at:每小時的第(n)分時執行
