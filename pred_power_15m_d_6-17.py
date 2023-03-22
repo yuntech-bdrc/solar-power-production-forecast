@@ -144,7 +144,7 @@ def model_build(train_x, train_y, train_idx, test_x, test_y, test_idx, model_nam
 # In[4]:
 
 
-merge_raw = pd.read_csv(f'Dataset/solar_汙水廠_newbig_sort(history_15m)_2021_5_3.csv',encoding='ISO-8859-15')
+merge_raw = pd.read_csv(f'Dataset/solar_plant_newbig_sort(history_15m)_2021_5_3.csv',encoding='ISO-8859-15')
 data = merge_raw.copy()
 data = data.drop_duplicates(subset=['TIME_TO_INTERVAL'], keep='last')
 data = data.dropna(subset=['Power'])
