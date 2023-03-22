@@ -285,7 +285,7 @@ def interpolate(x, kind='linear'):
 # data = data[['TIME_TO_INTERVAL','date','hour','Power']]
 # data = data.dropna(subset=['Power']).reset_index(drop=True)
 # data = data.drop_duplicates(['TIME_TO_INTERVAL'], keep="last").reset_index(drop=True)
-# weatherdata = pd.read_csv('dataset/solar_汙水廠(history).csv')
+# weatherdata = pd.read_csv('dataset/solar_plant(history).csv')
 # weatherdata = weatherdata.rename(columns={'Radiation(SDv3)(IBM)':'Radiation(SDv3)(TWC)',
 #                                           'Radiation(MSM)':'Radiation(SDv3)(MSM)'})
 # weatherdata['hour'] = pd.to_datetime(weatherdata['TIME_TO_INTERVAL']).dt.hour
