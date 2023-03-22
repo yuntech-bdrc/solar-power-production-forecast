@@ -243,7 +243,7 @@ def performance_graph(pred,test_data):
 # In[7]:
 
 
-merge_raw = pd.read_csv(f'Dataset/solar_汙水廠(history_cloud_15m).csv')
+merge_raw = pd.read_csv(f'Dataset/solar_plant(history_cloud_15m).csv')
 print(len(merge_raw))
 data = merge_raw.copy()
 #刪除重複項並保留最後一次出現
