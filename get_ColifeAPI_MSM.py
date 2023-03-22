@@ -178,15 +178,15 @@ def msm_pred_packaging(plantid, start, end, msm_var, target):
 #     obsDatas.to_csv(f'MSM_data/save/{pid}_{msm_var}obs(0814).csv', index=None)
 #     #抓取
 #     predDatas.to_csv(f'MSM_data/save/{pid}_{msm_var}pred(0814).csv', index=None)
-    old = pd.read_csv(f'./MSM_data/save/solar_汙水廠_dswrfpred.csv')
+    old = pd.read_csv(f'./MSM_data/save/solar_plant_dswrfpred.csv')
     d = pd.concat([old, predDatas], axis=0, ignore_index=True)
     d = d.drop_duplicates(subset=['TIME_TO_INTERVAL'], keep='last')
-    d.to_csv(f'./MSM_data/save/solar_汙水廠_dswrfpred.csv', index=None)
+    d.to_csv(f'./MSM_data/save/solar_plant_dswrfpred.csv', index=None)
     
-    old_2 = pd.read_csv(f'./MSM_data/save/solar_汙水廠_dswrfobs.csv')
+    old_2 = pd.read_csv(f'./MSM_data/save/solar_plant_dswrfobs.csv')
     d_2 = pd.concat([old_2, obsDatas], axis=0, ignore_index=True)
     d_2 = d_2.drop_duplicates(subset=['TIME_TO_INTERVAL'], keep='last')
-    d_2.to_csv(f'./MSM_data/save/solar_汙水廠_dswrfobs.csv', index=None)
+    d_2.to_csv(f'./MSM_data/save/solar_plant_dswrfobs.csv', index=None)
 
 
 
