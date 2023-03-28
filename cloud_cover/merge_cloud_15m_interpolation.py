@@ -59,7 +59,7 @@ df2 = df2.reset_index(drop=True)
 df_all = pd.concat([dfXlen_result,df2],axis=1)
 
 #存成csv
-df_all.to_csv(f'./dataset/10m_to_15m_colud.csv', index=None)
+df_all.to_csv(f'./dataset/merge_10m_to_15m_colud.csv', index=None)
 
 
 # In[ ]:
