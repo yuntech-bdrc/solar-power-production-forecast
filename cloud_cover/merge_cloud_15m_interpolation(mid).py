@@ -37,7 +37,7 @@ df2[['mid', 'hig','cloud']] = df2[['mid', 'hig','cloud']].interpolate()
 
 df2['low'].fillna(df2['mid'], inplace=True)
 # 輸出df2
-df2.to_csv(f'./cloud_cover/10m_to_15m_have_low_colud.csv', index=None)
+df2.to_csv(f'./cloud_cover/10m_to_15m_mid_colud.csv', index=None)
 
 
 # In[208]:
@@ -59,7 +59,7 @@ df2 = df2.reset_index(drop=True)
 df_all = pd.concat([dfXlen_result,df2],axis=1)
 
 #存成csv
-df_all.to_csv(f'./dataset/tt).csv', index=None)
+df_all.to_csv(f'./dataset/merge_10m_to_15m_mid_colud.csv', index=None)
 
 
 # In[215]:
