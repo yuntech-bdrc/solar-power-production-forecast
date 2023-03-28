@@ -12,7 +12,7 @@ import pandas as pd
 import numpy as np
 
 # 讀取資料
-df = pd.read_csv(f'./cloud_data/new_obs_cloud.csv')
+df = pd.read_csv(f'./cloud_cover/new_obs_cloud.csv')
 
 # 將date_time欄位轉換成datetime格式
 df['date_time'] = pd.to_datetime(df['date_time'])
