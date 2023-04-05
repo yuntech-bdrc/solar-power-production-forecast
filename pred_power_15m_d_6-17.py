@@ -114,6 +114,7 @@ def model_build(train_x, train_y, train_idx, test_x, test_y, test_idx, model_nam
 #         pd.DataFrame(true_y).to_csv(f"15分鐘/test_y.csv", index=False) 
 #         test_idx['pred'] = test_y_1
 #         test_idx['true'] = true_y
+
         test_x = scaler_x.inverse_transform(test_x)
         test_x = test_x.reshape(-1)
         test_y = test_y.reshape(-1)
@@ -144,7 +145,9 @@ def model_build(train_x, train_y, train_idx, test_x, test_y, test_idx, model_nam
 # In[4]:
 
 
-merge_raw = pd.read_csv(f'Dataset/solar_plant_newbig_sort(history_15m)_2021_5_3.csv',encoding='ISO-8859-15')
+# merge_raw = pd.read_csv(f'Dataset/solar_汙水廠_newbig_sort(history_15m)_2021_5_3.csv',encoding='ISO-8859-15')
+merge_raw = pd.read_csv(f'Dataset/solar_汙水廠_newbig_sort(history_15m)_2021_5_3_other.csv',encoding='ISO-8859-15')
+
 data = merge_raw.copy()
 data = data.drop_duplicates(subset=['TIME_TO_INTERVAL'], keep='last')
 data = data.dropna(subset=['Power'])
@@ -154,8 +157,8 @@ test_split_date2 = pd.to_datetime(test_split_date2)
 mask_2 = (data['TIME_TO_INTERVAL']<=test_split_date2)
 data = data[mask_2]
 
-#取3/18之後
-# test_split_date2 = '2022-04-02'
+#取2/01之後
+# test_split_date2 = '2022-04-03'
 # test_split_date2 = pd.to_datetime(test_split_date2)
 # mask_2 = (data['TIME_TO_INTERVAL']>=test_split_date2)
 # data = data[mask_2]
@@ -327,9 +330,7 @@ data.to_csv(f"15分鐘/data.csv", index=False)
 def set_inputs_1(target_day_time):
     if (len(target_day_time)==1):
         hourly_attribute = np.concatenate((
-                                          target_day_time['pre_Radiation(SDv3)(CWB)-300'].values,
-                                          target_day_time['pre_Radiation(SDv3)(CWB)-240'].values,
-                                          target_day_time['pre_Radiation(SDv3)(CWB)-180'].values,
+
 #                                           target_day_time['pre_Radiation(SDv3)(CWB)-120'].values,
 #                                           target_day_time['pre_Radiation(SDv3)(CWB)-105'].values,
 #                                           target_day_time['pre_Radiation(SDv3)(CWB)-90'].values,
@@ -338,24 +339,31 @@ def set_inputs_1(target_day_time):
 #                                           target_day_time['pre_Radiation(SDv3)(CWB)-45'].values,
 #                                           target_day_time['pre_Radiation(SDv3)(CWB)-30'].values,
 #                                           target_day_time['pre_Radiation(SDv3)(CWB)-15'].values,
-                                          target_day_time['Radiation(SDv3)(CWB)'].values,
 #                                           target_day_time['next_Radiation(SDv3)(CWB)+15'].values,
 #                                           target_day_time['next_Radiation(SDv3)(CWB)+30'].values,
 #                                           target_day_time['next_Radiation(SDv3)(CWB)+45'].values,
+#                                           target_day_time['next_Radiation(SDv3)(CWB)+180'].values,
+            
+                                          target_day_time['pre_Radiation(SDv3)(CWB)-300'].values,
+                                          target_day_time['pre_Radiation(SDv3)(CWB)-240'].values,
+                                          target_day_time['pre_Radiation(SDv3)(CWB)-180'].values,
+                                          target_day_time['Radiation(SDv3)(CWB)'].values,            
                                           target_day_time['next_Radiation(SDv3)(CWB)+60'].values,
                                           target_day_time['next_Radiation(SDv3)(CWB)+120'].values,
-#                                           target_day_time['next_Radiation(SDv3)(CWB)+180'].values,
                                           target_day_time['next_Radiation(SDv3)(CWB)+240'].values,
                                           target_day_time['next_Radiation(SDv3)(CWB)+300'].values,
+            
+#                                           target_day_time['pre_power'].values,
                                          ))
 #         print("hourly_attribute: " ,hourly_attribute)
     else:
         hourly_attribute=[np.nan,np.nan,np.nan,np.nan,np.nan,np.nan,np.nan,np.nan]
+#         hourly_attribute=[np.nan]
     inputs = hourly_attribute
     return inputs
 
 
-# In[8]:
+# In[16]:
 
 
 # feature_data = ['Radiation(SDv3)(CWB)','Radiation(SDv3)(TWC)','Radiation(SDv3)(OWM)','Radiation(SDv3)(MSM)']
@@ -389,9 +397,8 @@ for i in range(len(data)):
         Y.append(target_day_y['Power'][0])
     else:
         Y.append(np.nan)
-# X = pd.DataFrame(X,index=None,columns=['Radiation(SDv3)(CWB)-120','Radiation(SDv3)(CWB)-105','Radiation(SDv3)(CWB)-90','Radiation(SDv3)(CWB)-75','Radiation(SDv3)(CWB)-60','Radiation(SDv3)(CWB)-45','Radiation(SDv3)(CWB)-30','Radiation(SDv3)(CWB)-15','Radiation(SDv3)(CWB)'])
-# X = pd.DataFrame(X,index=None,columns=['Radiation(SDv3)(CWB)-240','Radiation(SDv3)(CWB)-180','Radiation(SDv3)(CWB)-120','Radiation(SDv3)(CWB)-60','Radiation(SDv3)(CWB)','Radiation(SDv3)(CWB)+60'])
-X = pd.DataFrame(X,index=None,columns=['Radiation(SDv3)(CWB)','Radiation(SDv3)(CWB)+60','Radiation(SDv3)(CWB)+240','Radiation(SDv3)(CWB)-240','Radiation(SDv3)(CWB)-180','Radiation(SDv3)(CWB)+120','Radiation(SDv3)(CWB)+300','Radiation(SDv3)(CWB)-300'])
+# X = pd.DataFrame(X,index=None,columns=['power'])
+X = pd.DataFrame(X,index=None,columns=['pre_Radiation(SDv3)(CWB)-300','pre_Radiation(SDv3)(CWB)-240','pre_Radiation(SDv3)(CWB)-180','Radiation(SDv3)(CWB)','next_Radiation(SDv3)(CWB)+60','next_Radiation(SDv3)(CWB)+120','next_Radiation(SDv3)(CWB)+240','next_Radiation(SDv3)(CWB)+300'])
     
 data['TIME_TO_INTERVAL'] = pd.to_datetime(data['TIME_TO_INTERVAL'])
 X['TIME_TO_INTERVAL'] = data['TIME_TO_INTERVAL']
@@ -419,9 +426,8 @@ mask_2 = (train['Date'] <= test_split_date2)
 test_data = train[~mask_1&mask_2].reset_index(drop=True)
 print(len(test_data))
 test_data.to_csv(f"15分鐘/test_data.csv", index=False) 
-# feature_data = ['Radiation(SDv3)(CWB)-120','Radiation(SDv3)(CWB)-105','Radiation(SDv3)(CWB)-90','Radiation(SDv3)(CWB)-75','Radiation(SDv3)(CWB)-60','Radiation(SDv3)(CWB)-45','Radiation(SDv3)(CWB)-30','Radiation(SDv3)(CWB)-15','Radiation(SDv3)(CWB)']
-# feature_data = ['Radiation(SDv3)(CWB)-240','Radiation(SDv3)(CWB)-180','Radiation(SDv3)(CWB)-120','Radiation(SDv3)(CWB)-60','Radiation(SDv3)(CWB)','Radiation(SDv3)(CWB)+60']
-feature_data = ['Radiation(SDv3)(CWB)','Radiation(SDv3)(CWB)+60','Radiation(SDv3)(CWB)+240','Radiation(SDv3)(CWB)-240','Radiation(SDv3)(CWB)-180','Radiation(SDv3)(CWB)+120','Radiation(SDv3)(CWB)+300','Radiation(SDv3)(CWB)-300']
+# feature_data = ['power']
+feature_data = ['pre_Radiation(SDv3)(CWB)-300','pre_Radiation(SDv3)(CWB)-240','pre_Radiation(SDv3)(CWB)-180','Radiation(SDv3)(CWB)','next_Radiation(SDv3)(CWB)+60','next_Radiation(SDv3)(CWB)+120','next_Radiation(SDv3)(CWB)+240','next_Radiation(SDv3)(CWB)+300']
 train_x = train_data[feature_data]
 train_y = train_data[['Power']]
 test_x = test_data[feature_data]
@@ -444,14 +450,14 @@ test_x, test_y = np.array(test_x), np.array(test_y)
 
 
 train_idx, test_idx = pd.DataFrame(), pd.DataFrame()  
-pred = model_build(train_x, train_y, train_idx, test_x, test_y, test_idx, 'rvm')
+pred = model_build(train_x, train_y, train_idx, test_x, test_y, test_idx, 'lgb')
 
 
 pred['pred'] = pred['pred'].where(pred['pred'] >= 0, 0)
 pred.to_csv(f"15分鐘/pred.csv", index=False) 
 
 
-# In[9]:
+# In[17]:
 
 
 Baoshan = pd.read_csv(f'Plant_Info_Baoshan.csv', low_memory=False)
@@ -459,7 +465,7 @@ solar_capacity = Baoshan['Capacity'][1]
 solar_capacity
 
 
-# In[10]:
+# In[18]:
 
 
 print(round(MRE(pred['true'], pred['pred'],solar_capacity),2))
@@ -486,7 +492,7 @@ line_color = [
 ]
 
 
-xtick = int(len(test_data['TIME_TO_INTERVAL'])/24)
+xtick = int(len(test_data['TIME_TO_INTERVAL'])/48)
 
 fig_line = go.Figure()
 
@@ -521,10 +527,10 @@ fig_line.update_xaxes(nticks=xtick)
 fig_line.show()
 
 
-# In[ ]:
+# In[12]:
 
 
-
+fig_line.write_html(f'123.html')
 
 
 # In[ ]:
