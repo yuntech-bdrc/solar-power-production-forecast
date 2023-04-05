@@ -50,7 +50,7 @@ def MAPE(y_true, y_pred):
 #mre=nmape
 def MRE(y_true, y_pred, capacity):
     y_true, y_pred = np.array(y_true), np.array(y_pred)
-    return np.mean(np.abs((y_true - y_pred))/capacity) * 100
+    return np.mean(np.abs((y_true - y_pred))/capacity) * 100 
 
 def nMAE(y_true, y_pred):
     y_true, y_pred = np.array(y_true), np.array(y_pred)
