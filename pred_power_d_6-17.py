@@ -148,7 +148,7 @@ def model_build(train_x, train_y, train_idx, test_x, test_y, test_idx, model_nam
 # In[5]:
 
 
-merge_raw = pd.read_csv(f'Dataset/solar_plant(history).csv')
+merge_raw = pd.read_csv(f'Dataset/solar_汙水廠(history).csv')
 data = merge_raw.copy()
 data = data.drop_duplicates(subset=['TIME_TO_INTERVAL'], keep='last')
 data = data.dropna(subset=['Power'])

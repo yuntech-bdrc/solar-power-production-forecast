@@ -32,7 +32,7 @@ import matplotlib.dates as md
 
 
 def split_data(data):
-    feature_data = pd.DataFrame(data,columns=['up_Power_1','up_Power_2','up_Power_3','up_Radiation_1','now_Radiation','next_Radiation_1'])
+    feature_data = pd.DataFrame(data,columns=['up_Power_1','up_Power_2','up_Radiation_1','now_Radiation','next_Radiation_1'])
     length_data = int(len(data))
     #next_Radiation_1(倒數4筆沒有下一小時的Radiation)
     length_data_last = length_data-4
@@ -53,13 +53,6 @@ def split_data(data):
         else:
             feature_data['up_Power_2'][j] = data['Power'][j-8]
         
-        #up_Power_3
-        #(開頭12筆沒有上三小時的Radiation和Power)
-        if j in range(0,12):
-            feature_data['up_Power_3'][j] = 0.0000
-        else:
-            feature_data['up_Power_3'][j] = data['Power'][j-12]
-    
         #now_Radiation
         feature_data['now_Radiation'][j] = data['Radiation(today)(CWB)'][j]
         
@@ -102,7 +95,7 @@ def model_build(train_x, train_y, train_idx, test_x, test_y, test_idx, model_nam
     elif model_name == 'rvm':
         model = EMRVR(kernel="rbf", gamma='auto')
         model.fit(train_x, train_y)
-        joblib.dump(model,'./model/15_minute/6-17/pred_power_m_6-17.pkl')
+        joblib.dump(model,'./model/4-15_minute/6-17/pred_power_m_6-17.pkl')
     elif model_name == 'persistence':
         test_x = scaler_x.inverse_transform(test_x)
         test_x = test_x.reshape(-1)
@@ -165,7 +158,7 @@ def cRMSE(y_true, y_pred, capacity):
 # In[5]:
 
 
-merge_raw = pd.read_csv(f'Dataset/solar_plant_newbig_sort(history_15m).csv')
+merge_raw = pd.read_csv(f'Dataset/solar_汙水廠_merged(15m_ch_power).csv')
 print(len(merge_raw))
 data = merge_raw.copy()
 #刪除重複項並保留最後一次出現
@@ -194,7 +187,7 @@ data['TIME_TO_INTERVAL'] = pd.to_datetime(data['TIME_TO_INTERVAL'])
 mask = (data['TIME_TO_INTERVAL'] <= pd.to_datetime('2022-10-31'))
 data = data[mask]
 data.dropna()
-test_split_date = '2022-9-01'
+test_split_date = '2022-10-01'
 test_split_date2 = '2022-10-31'
 data = data.merge(pre_data, how='left', left_index=True, right_index=True)
 
@@ -212,7 +205,7 @@ feature_data=[]
 # for i in range(len(feature)):
 for i in range(1):
     feature_data = ['up_Power_1','next_Radiation_1','up_Power_2','up_Radiation_1','now_Radiation']
-#     feature_data = ['pre_Power_1']
+#     feature_data = ['up_Power_1']
 #     feature_data=[]
 #     feature_data.append(feature[i])
     print(feature_data)
