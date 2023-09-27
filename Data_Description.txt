@@ -2,6 +2,7 @@
 pred_power_4-15m_6-17=當日下四個15分鐘模型程式
 pred_power_4-15m_join_cloud(new10to15)_6-17=當日下四個15分鐘模型程式(加雲資料)
 pred_power_15m_d_6-17=隔日逐15分鐘模型程式
+pred_power_15m_d_6-17_join_Cloud=隔日逐15分鐘模型程式(加雲資料)
 pred_power_d_6-17_2022=發電量提前一日預測
 pred_power_h_6-17_2022=發電量提前一小時預測
 2022_pred_power_15m_6-17=發電量提前15分鐘預測
@@ -25,6 +26,7 @@ history_merge_new=資料有缺失時才執行程式(old_and_new_data_merge有缺
 merge_large_tables_15min=將old_and_new_data_merge轉成每15分鐘一筆資料，以及定時預測當日下四個15分鐘和隔日逐15分鐘發電量
 read_CWB_3H=整理抓取到的CWB天氣預報資料
 read_OWM_3H=整理抓取到的OWM天氣預報資料
+merge_cloud_15m_interpolation(hig)=雲資料清洗程式(彰師)
 
 |cloud_cover雲資料和程式|
 cloud_data_process=雲資料清洗程式
