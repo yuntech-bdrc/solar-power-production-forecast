@@ -15,7 +15,7 @@ import numpy as np
 import scipy.stats as stats
 import matplotlib.pyplot as plt
 import joblib
-import pickle 
+import pickle
 # load sklearn
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import classification_report
@@ -179,7 +179,7 @@ data['ClearSkyRadiation'] = data['ClearSkyRadiation'].where(data['ClearSkyRadiat
 data['Radiation'] = data['Radiation'].where(data['Radiation'] >= 0, 0)
 mask = ((data['Hour']>=5) & (data['Hour']<=18))
 data = data[mask]
-data = data[['TIME_TO_INTERVAL','Hour','Date','Minute','Power','Radiation','ClearSkyRadiation','Radiation(SDv3)(CWB)','pre_Radiation(SDv3)(CWB)-300','pre_Radiation(SDv3)(CWB)-240','pre_Radiation(SDv3)(CWB)-180','pre_Radiation(SDv3)(CWB)-120','pre_Radiation(SDv3)(CWB)-105','pre_Radiation(SDv3)(CWB)-90','pre_Radiation(SDv3)(CWB)-75','pre_Radiation(SDv3)(CWB)-60','pre_Radiation(SDv3)(CWB)-45','pre_Radiation(SDv3)(CWB)-30','pre_Radiation(SDv3)(CWB)-15','next_Radiation(SDv3)(CWB)+15','next_Radiation(SDv3)(CWB)+30','next_Radiation(SDv3)(CWB)+45','next_Radiation(SDv3)(CWB)+60','next_Radiation(SDv3)(CWB)+120','next_Radiation(SDv3)(CWB)+180','next_Radiation(SDv3)(CWB)+240','next_Radiation(SDv3)(CWB)+300','lon','lat','low','mid','hig','cloud','lon-1d','lat-1d','low-1d','mid-1d','hig-1d','cloud-1d']].reset_index(drop=True)
+data = data[['TIME_TO_INTERVAL','Hour','Date','Minute','Power','Radiation','ClearSkyRadiation','Radiation(SDv3)(CWB)','pre_Radiation(SDv3)(CWB)-300','pre_Radiation(SDv3)(CWB)-240','pre_Radiation(SDv3)(CWB)-180','pre_Radiation(SDv3)(CWB)-120','pre_Radiation(SDv3)(CWB)-105','pre_Radiation(SDv3)(CWB)-90','pre_Radiation(SDv3)(CWB)-75','pre_Radiation(SDv3)(CWB)-60','pre_Radiation(SDv3)(CWB)-45','pre_Radiation(SDv3)(CWB)-30','pre_Radiation(SDv3)(CWB)-15','next_Radiation(SDv3)(CWB)+15','next_Radiation(SDv3)(CWB)+30','next_Radiation(SDv3)(CWB)+45','next_Radiation(SDv3)(CWB)+60','next_Radiation(SDv3)(CWB)+120','next_Radiation(SDv3)(CWB)+180','next_Radiation(SDv3)(CWB)+240','next_Radiation(SDv3)(CWB)+300','low_new1','mid_new1','hig_new1','cloud_new1','low_new2','mid_new2','hig_new2','cloud_new2']].reset_index(drop=True)
 data = data.dropna()
 data
 data.to_csv(f"15分鐘/data.csv", index=False) 
@@ -195,27 +195,13 @@ def set_inputs_1(target_day_time):
                                           target_day_time['pre_Radiation(SDv3)(CWB)-300'].values,
                                           target_day_time['pre_Radiation(SDv3)(CWB)-240'].values,
                                           target_day_time['pre_Radiation(SDv3)(CWB)-180'].values,
-#                                           target_day_time['pre_Radiation(SDv3)(CWB)-120'].values,
-#                                           target_day_time['pre_Radiation(SDv3)(CWB)-105'].values,
-#                                           target_day_time['pre_Radiation(SDv3)(CWB)-90'].values,
-#                                           target_day_time['pre_Radiation(SDv3)(CWB)-75'].values,
-#                                           target_day_time['pre_Radiation(SDv3)(CWB)-60'].values,
-#                                           target_day_time['pre_Radiation(SDv3)(CWB)-45'].values,
-#                                           target_day_time['pre_Radiation(SDv3)(CWB)-30'].values,
-#                                           target_day_time['pre_Radiation(SDv3)(CWB)-15'].values,
-                                          target_day_time['Radiation(SDv3)(CWB)'].values,
-#                                           target_day_time['next_Radiation(SDv3)(CWB)+15'].values,
-#                                           target_day_time['next_Radiation(SDv3)(CWB)+30'].values,
-#                                           target_day_time['next_Radiation(SDv3)(CWB)+45'].values,
+                                          target_day_time['Radiation(SDv3)(CWB)'].values,            
                                           target_day_time['next_Radiation(SDv3)(CWB)+60'].values,
                                           target_day_time['next_Radiation(SDv3)(CWB)+120'].values,
-#                                           target_day_time['next_Radiation(SDv3)(CWB)+180'].values,
                                           target_day_time['next_Radiation(SDv3)(CWB)+240'].values,
                                           target_day_time['next_Radiation(SDv3)(CWB)+300'].values,
             
-#                                           target_day_time['lon'].values,
-#                                           target_day_time['lat'].values,
-            
+      
                                           target_day_time['cloud'].values,
                                           target_day_time['low'].values,
                                           target_day_time['mid'].values,
@@ -262,9 +248,7 @@ for i in range(len(data)):
         Y.append(target_day_y['Power'][0])
     else:
         Y.append(np.nan)
-# X = pd.DataFrame(X,index=None,columns=['Radiation(SDv3)(CWB)-120','Radiation(SDv3)(CWB)-105','Radiation(SDv3)(CWB)-90','Radiation(SDv3)(CWB)-75','Radiation(SDv3)(CWB)-60','Radiation(SDv3)(CWB)-45','Radiation(SDv3)(CWB)-30','Radiation(SDv3)(CWB)-15','Radiation(SDv3)(CWB)'])
-# X = pd.DataFrame(X,index=None,columns=['Radiation(SDv3)(CWB)-240','Radiation(SDv3)(CWB)-180','Radiation(SDv3)(CWB)-120','Radiation(SDv3)(CWB)-60','Radiation(SDv3)(CWB)','Radiation(SDv3)(CWB)+60'])
-X = pd.DataFrame(X,index=None,columns=['cloud','hig','mid','low','pre_Radiation(SDv3)(CWB)-300','pre_Radiation(SDv3)(CWB)-240','pre_Radiation(SDv3)(CWB)-180','Radiation(SDv3)(CWB)','next_Radiation(SDv3)(CWB)+60','next_Radiation(SDv3)(CWB)+120','next_Radiation(SDv3)(CWB)+240','next_Radiation(SDv3)(CWB)+300'])
+X = pd.DataFrame(X,index=None,columns=['pre_Radiation(SDv3)(CWB)-300','pre_Radiation(SDv3)(CWB)-240','pre_Radiation(SDv3)(CWB)-180','Radiation(SDv3)(CWB)','next_Radiation(SDv3)(CWB)+60','next_Radiation(SDv3)(CWB)+120','next_Radiation(SDv3)(CWB)+240','next_Radiation(SDv3)(CWB)+300','cloud','low','mid','hig'])
     
 data['TIME_TO_INTERVAL'] = pd.to_datetime(data['TIME_TO_INTERVAL'])
 X['TIME_TO_INTERVAL'] = data['TIME_TO_INTERVAL']
@@ -291,10 +275,8 @@ train_data.to_csv(f"15分鐘/train_data.csv", index=False)
 mask_2 = (train['Date'] <= test_split_date2)
 test_data = train[~mask_1&mask_2].reset_index(drop=True)
 print(len(test_data))
-test_data.to_csv(f"15分鐘/test_data.csv", index=False) 
-# feature_data = ['Radiation(SDv3)(CWB)-120','Radiation(SDv3)(CWB)-105','Radiation(SDv3)(CWB)-90','Radiation(SDv3)(CWB)-75','Radiation(SDv3)(CWB)-60','Radiation(SDv3)(CWB)-45','Radiation(SDv3)(CWB)-30','Radiation(SDv3)(CWB)-15','Radiation(SDv3)(CWB)']
-# feature_data = ['Radiation(SDv3)(CWB)-240','Radiation(SDv3)(CWB)-180','Radiation(SDv3)(CWB)-120','Radiation(SDv3)(CWB)-60','Radiation(SDv3)(CWB)','Radiation(SDv3)(CWB)+60']
-feature_data = ['cloud','hig','mid','low','pre_Radiation(SDv3)(CWB)-300','pre_Radiation(SDv3)(CWB)-240','pre_Radiation(SDv3)(CWB)-180','Radiation(SDv3)(CWB)','next_Radiation(SDv3)(CWB)+60','next_Radiation(SDv3)(CWB)+120','next_Radiation(SDv3)(CWB)+240','next_Radiation(SDv3)(CWB)+300']
+test_data.to_csv(f"15分鐘/test_data.csv", index=False)
+feature_data = ['pre_Radiation(SDv3)(CWB)-300','pre_Radiation(SDv3)(CWB)-240','pre_Radiation(SDv3)(CWB)-180','Radiation(SDv3)(CWB)','next_Radiation(SDv3)(CWB)+60','next_Radiation(SDv3)(CWB)+120','next_Radiation(SDv3)(CWB)+240','next_Radiation(SDv3)(CWB)+300','cloud','low','mid','hig']
 train_x = train_data[feature_data]
 train_y = train_data[['Power']]
 test_x = test_data[feature_data]
@@ -317,7 +299,7 @@ test_x, test_y = np.array(test_x), np.array(test_y)
 
 
 train_idx, test_idx = pd.DataFrame(), pd.DataFrame()  
-pred = model_build(train_x, train_y, train_idx, test_x, test_y, test_idx, 'rvm')
+pred = model_build(train_x, train_y, train_idx, test_x, test_y, test_idx, 'svr')
 
 
 pred['pred'] = pred['pred'].where(pred['pred'] >= 0, 0)
@@ -343,6 +325,27 @@ print(round(MAE(pred['true'], pred['pred']),2))
 
 
 # In[9]:
+
+
+print(round(MAPE(pred['true'], pred['pred']),2))
+
+
+# In[14]:
+
+
+# def MAPE(y_true, y_pred):
+#     y_true, y_pred = np.array(y_true), np.array(y_pred)
+#     return np.mean(np.abs((y_true - y_pred) / y_true)) * 100
+# #mre=nmape
+# def MRE(y_true, y_pred, capacity):
+#     y_true, y_pred = np.array(y_true), np.array(y_pred)
+#     return np.mean(np.abs((y_true - y_pred))/capacity) * 100
+print(pred['true'])
+print(pred['pred'])
+print(solar_capacity)
+
+
+# In[10]:
 
 
 line_color = [
@@ -394,7 +397,7 @@ fig_line.update_xaxes(nticks=xtick)
 fig_line.show()
 
 
-# In[10]:
+# In[11]:
 
 
 fig_line.write_html(f'123.html')
