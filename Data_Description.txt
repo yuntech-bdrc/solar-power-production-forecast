@@ -32,7 +32,9 @@ merge_cloud_15m_interpolation(hig)=雲資料清洗程式(彰師)
 cloud_data_process=雲資料清洗程式
 merged_processed(capacity_factor)=存放雲資料未正規化裝置容量的資料表格
 merged_processed(power)=存放雲資料正規化裝置容量的資料表格
-v35_崙尾光_power：處理裝置容量未正規化的資料
-v35_崙尾光_capacity_factor：處理裝置容量正規化後的資料
+v35_崙尾光_power：預測下四個十五分鐘發電量，處理裝置容量未正規化的資料
+v35_崙尾光_capacity_factor：預測下四個十五分鐘發電量，處理處理裝置容量正規化後的資料
+v35_崙尾光_隔日_power：預測隔日發電量，處理裝置容量未正規化的資料
+v35_崙尾光_隔日_capacity_factor：預測隔日發電量，處理裝置容量正規化後的資料
 *兩版程式碼差異為績效指標MRE的公式與有無capacity變數。_power檔案的MRE公式有除以capacity，_capacity_factor檔案中則無。由於_power的輸入資料未經過正規化，所以有此差異。
 *案場與雲量資料都可在程式碼開頭的變數命名中更改。
